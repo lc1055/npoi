@@ -1261,18 +1261,21 @@ namespace NPOI.XWPF.UserModel
         public void ReplaceText(string oldText, string newText)
         {
             TextSegment ts= this.SearchText(oldText, new PositionInParagraph() { Run = 0 });
-            if (ts.BeginRun == ts.EndRun)
+            if(ts != null)
             {
-                this.runs[ts.BeginRun].ReplaceText(oldText, newText);
-            }
-            else
-            {
-                this.runs[ts.BeginRun].ReplaceText(this.runs[ts.BeginRun].Text.Substring(ts.BeginChar), newText);
-                this.runs[ts.EndRun].ReplaceText(this.runs[ts.EndRun].Text.Substring(0, ts.EndChar + 1), "");
-                for (int i = ts.EndRun-1; i > ts.BeginRun; i--)
-                {
-                    RemoveRun(i);
-                }
+               if (ts.BeginRun == ts.EndRun)
+               {
+                  this.runs[ts.BeginRun].ReplaceText(oldText, newText);
+               }
+               else
+               {
+                  this.runs[ts.BeginRun].ReplaceText(this.runs[ts.BeginRun].Text.Substring(ts.BeginChar), newText);
+                  this.runs[ts.EndRun].ReplaceText(this.runs[ts.EndRun].Text.Substring(0, ts.EndChar + 1), "");
+                  for (int i = ts.EndRun-1; i > ts.BeginRun; i--)
+                  {
+                     RemoveRun(i);
+                  }
+               }
             }
         }
         /// <summary>
